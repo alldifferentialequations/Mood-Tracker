@@ -1,0 +1,16 @@
+@font-face {
+    font-family: Inter;
+    src: url(./assets/fonts/Inter_18pt-Regular.ttf);
+}
+
+@import "tailwindcss";
+
+@theme {
+     --breakpoint-ssm: 500px;
+
+    --color-shadow-campos: #5B9399;
+    --color-botones-registro-morado: #8A2BE2;
+    --color-botones-registro-azul: #0000FF;
+    --color-boton-save: #4EB395;
+    --font-inter: 'Inter', sans-serif;
+}
