@@ -13,6 +13,7 @@ export function UserProvider({ children }) {
   };
 
   const logout = () => {
+    localStorage.removeItem("Token");
     setUsuario(null);
   };
 

@@ -130,15 +130,20 @@ function Form(){
         body: JSON.stringify(datosUsuario)
       });
 
-      const respuesta = await mensaje.json(); 
+      const respuesta = await mensaje.json();
 
       //Si existe pues pido sus moods para enviarlo con sus datos
       if (mensaje.status === 200) {
+        localStorage.setItem("Token", respuesta.token);
+        
         const urlmood = `${url}/mood/${respuesta["id"]}`;
 
         const pedir_moods = await fetch (urlmood, {
           method: "GET",
-          headers: {"Content-type": "application/json"}
+          headers: {
+            "Content-type": "application/json",
+            "Authorization": `Bearer ${localStorage.getItem("Token")}`
+          }
         })
 
         const respuesta_moods = await pedir_moods.json();
@@ -153,7 +158,10 @@ function Form(){
 
           const pedir_dias = await fetch(urldia, {
             method: "GET",
-            headers: {"Content-type": "application/json"}
+            headers: {
+              "Content-type": "application/json",
+              "Authorization": `Bearer ${localStorage.getItem("Token")}`
+            }
           })
 
           const respuesta_dias = await pedir_dias.json();

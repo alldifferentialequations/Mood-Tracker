@@ -43,33 +43,8 @@ function Header(){
     );
 }
 
-function ColorModal({ isOpen, onClose }) {
-    const { anadir } = useContext(UserContext);
-
-    if (!isOpen) return null;
-
-
-    if (anadir) {
-        return createPortal(
-            <div className="fixed inset-0 h-screen w-screen flex justify-center items-center bg-black/25 z-50">
-                <div className="relative w-[300px] h-[200px] flex flex-col justify-center items-center gap-y-4 rounded-lg bg-amber-400">
-                    <p>Por favor seleccione un mood. En caso de no tener uno, por favor, creelo</p>
-                    {/* Usamos la función onClose para cambiar el estado en el padre */}
-                    <button onClick={onClose} className="px-4 py-2 bg-red-500 text-white rounded font-bold">
-                        X
-                    </button>
-                </div>
-            </div>,
-            document.body
-        );
-    } else {
-        return ""
-    }
-}
-
 function Dia({item}){
     const { usuario, login, usingColor, anadir, del } = useContext(UserContext);
-    const [isModalOpen, setIsModalOpen] = useState(false);
 
     //Funcion para encontrar el dia guardado :V
     const diaGuardado = usuario["dias"].find(
@@ -102,7 +77,10 @@ function Dia({item}){
                 if (colorActual) {
                     const solicitud = await fetch(url, {
                         method: "PATCH",
-                        headers: {"Content-type": "application/json"},
+                        headers: {
+                            "Content-type": "application/json",
+                            "Authorization": `Bearer ${localStorage.getItem("Token")}`
+                        },
                         body: JSON.stringify(datos) 
                     });
 
@@ -115,7 +93,10 @@ function Dia({item}){
                         //Ahora se actualizan los dias
                         const request = await fetch(urlGet, {
                             method: "GET",
-                            headers: {"Content-type": "application/json"}
+                            headers: {
+                                "Content-type": "application/json",
+                                "Authorization": `Bearer ${localStorage.getItem("Token")}`
+                            }
                         })
 
                         const response = await request.json();
@@ -133,7 +114,10 @@ function Dia({item}){
                 } else {
                     const solicitud = await fetch(url, {
                         method: "POST",
-                        headers: {"Content-type": "application/json"},
+                        headers: {
+                            "Content-type": "application/json",
+                            "Authorization": `Bearer ${localStorage.getItem("Token")}`
+                        },
                         body: JSON.stringify(datos) 
                     });
 
@@ -146,7 +130,10 @@ function Dia({item}){
                         //Ahora se actualizan los dias
                         const request = await fetch(urlGet, {
                             method: "GET",
-                            headers: {"Content-type": "application/json"}
+                            headers: {
+                                "Content-type": "application/json",
+                                "Authorization": `Bearer ${localStorage.getItem("Token")}`
+                            }
                         })
 
                         const response = await request.json();
@@ -165,7 +152,10 @@ function Dia({item}){
             } else if (del) {
                 const solicitud = await fetch(url, {
                     method: "DELETE",
-                    headers: {"Content-type": "application/json"},
+                    headers: {
+                        "Content-type": "application/json",
+                        "Authorization": `Bearer ${localStorage.getItem("Token")}`
+                    },
                     body: JSON.stringify(datos) 
                 });
 
@@ -178,7 +168,10 @@ function Dia({item}){
                     //Ahora se actualizan los dias
                     const request = await fetch(urlGet, {
                         method: "GET",
-                        headers: {"Content-type": "application/json"}
+                        headers: {
+                            "Content-type": "application/json",
+                            "Authorization": `Bearer ${localStorage.getItem("Token")}`
+                    }
                     })
 
                     const response = await request.json();
@@ -325,10 +318,12 @@ function Pintar_mood({moodsitos, setUsingColor, usingColor}) {
                 //Borrar el mood de la base de datos
                 const solicitud = await fetch(url, {
                     method: "DELETE",
-                    headers: {"Content-type": "application/json"},
+                    headers: {
+                        "Content-type": "application/json",
+                        "Authorization": `Bearer ${localStorage.getItem("Token")}`
+                    },
                     body: JSON.stringify({
                         id_mood: id,
-                        id_usuario: usuario.id
                     })
                 })
                 const respuesta = await solicitud.json();
@@ -341,7 +336,10 @@ function Pintar_mood({moodsitos, setUsingColor, usingColor}) {
                 //Ahora pido sus moods para actualizar los datos del usuario en el codigo
                 const pedir_moods = await fetch (urlConId, {
                     method: "GET",
-                    headers: {"Content-type": "application/json"}
+                    headers: {
+                        "Content-type": "application/json",
+                        "Authorization": `Bearer ${localStorage.getItem("Token")}`
+                    }
                 })
 
                 //Aqui obtengo el array que contiene los moods
@@ -402,11 +400,13 @@ function Mood(){
             //Agrego el nuevo mood a la base de datos
             const solicitud = await fetch(url, {
                 method: "POST",
-                headers: {"Content-type": "application/json"},
+                headers: {
+                    "Content-type": "application/json",
+                    "Authorization": `Bearer ${localStorage.getItem("Token")}`
+                },
                 body: JSON.stringify({
                     feeling: textoMood,
                     color: color,
-                    id: usuario["id"]
                 })
             })
             const respuesta = await solicitud.json();
@@ -419,7 +419,10 @@ function Mood(){
             //Ahora pido sus moods para actualizar los datos del usuario en el codigo
             const pedir_moods = await fetch (urlConId, {
                 method: "GET",
-                headers: {"Content-type": "application/json"}
+                headers: {
+                    "Content-type": "application/json",
+                    "Authorization": `Bearer ${localStorage.getItem("Token")}`
+                }
             })
 
             //Aqui obtengo el array que contiene los moods
