@@ -169,7 +169,7 @@ function Form(){
           if (!pedir_dias.ok) {
             throw new Error(respuesta_dias.Mensaje);
           } else {
-            login({...respuesta, "moods": array_moods, "dias": respuesta_dias.Resultados});
+            login({"moods": array_moods, "dias": respuesta_dias.Resultados});
             navigate("/principal");
             return;
           }

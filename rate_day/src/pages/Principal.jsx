@@ -3,6 +3,7 @@ import { createPortal } from "react-dom";
 import { HexColorPicker } from "react-colorful";
 import { UserContext } from "../UserContext";
 import { useNavigate } from "react-router-dom";
+import { jwtDecode } from "jwt-decode";
 
 
 function Header(){
@@ -24,7 +25,7 @@ function Header(){
     </button>;
 
     const usuarioboton = 
-        <button className="relative border border-red-600" onClick={() => setLogout(!logoutabrir)}>
+        <button className="relative" onClick={() => setLogout(!logoutabrir)}>
             <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <rect width="40" height="40" rx="20" fill="white"/>
                 <path d="M33.3333 35V31.6667C33.3333 29.8986 32.6309 28.2029 31.3807 26.9526C30.1304 25.7024 28.4347 25 26.6666 25H13.3333C11.5652 25 9.86949 25.7024 8.61925 26.9526C7.369 28.2029 6.66663 29.8986 6.66663 31.6667V35M26.6666 11.6667C26.6666 15.3486 23.6819 18.3333 20 18.3333C16.3181 18.3333 13.3333 15.3486 13.3333 11.6667C13.3333 7.98477 16.3181 5 20 5C23.6819 5 26.6666 7.98477 26.6666 11.6667Z" stroke="#1E1E1E" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -65,10 +66,13 @@ function Dia({item}){
 
     //Funcion para modificar un dia :v
     async function enviar_dia(){
+        const token = localStorage.getItem("Token");
+        const decoded = jwtDecode(token);
+
         const fecha = `${item.anio}-${item.mes}-${item.dia}`; 
         const url = "http://localhost:9906/principal/dia";
-        const urlGet = `http://localhost:9906/principal/dia/${usuario.id}`;
-        const datos = {fecha: fecha, id_usuario: usuario.id, id_mood: usingColor.id};
+        const urlGet = `http://localhost:9906/principal/dia/${decoded.id}`;
+        const datos = {fecha: fecha, id_mood: usingColor.id};
 
         try {
             //Si anadir es true y un mood fue seleccionada se procede a enviar un dia a la base de datos
@@ -310,9 +314,11 @@ function Pintar_mood({moodsitos, setUsingColor, usingColor}) {
     const { setAnadir, anadir, del, usuario, login } = useContext(UserContext);
 
     async function modificar(id, color){ 
+        const token = localStorage.getItem("Token");
+        const decoded = jwtDecode(token);
         if (del) {
             const url = "http://localhost:9906/principal/mood";
-            const urlConId = `${url}/${usuario["id"]}`;
+            const urlConId = `${url}/${decoded.id}`;
 
             try {
                 //Borrar el mood de la base de datos
@@ -384,10 +390,6 @@ function Mood(){
     const [create, setCreate] = useState(false);
     const [color, setColor] = useState("#aabbcc");
     const [textoMood, setText] = useState("");
-    console.log("\n");
-    console.log("Create: ", create);
-    console.log("Delete: ", del);
-    console.log("Añadir: ", anadir);
     
 
     async function enviarMood(){
@@ -512,19 +514,69 @@ function Mood(){
 }
 
 export default function Principal() {
-    const { usuario } = useContext(UserContext);
-    const navigate = useNavigate();
+    const { usuario, login } = useContext(UserContext);
+    const navigate = useNavigate();   
 
-    //Si el usuario no ha iniciado sesion pues se le envia al inicio de sesion :V
     useEffect(() => {
-        if (usuario === null) {
-            navigate("/");
-        }
-    }, [usuario, navigate]); // Siempre incluye las dependencias
+        const token = localStorage.getItem("Token");
+        console.log("Refrescada de chill");
 
-    // 2. Guardián de renderizado
+        async function obtener_datos() {
+            const token = localStorage.getItem("Token");
+                
+            if (!token) {
+                navigate("/");
+                return;
+            }
+
+            try {
+                const decoded = jwtDecode(token);
+                const url_moods = `http://localhost:9906/principal/mood/${decoded.id}`;
+                const url_dias = `http://localhost:9906/principal/dia/${decoded.id}`;
+
+                const request = await fetch(url_moods, {
+                    method: "GET",
+                    headers: {
+                        "Content-type": "application/json",
+                        "Authorization": `Bearer ${token}`
+                    }
+                });
+
+                const response = await request.json();
+                if (!request.ok) throw new Error(response.Mensaje);
+
+
+                const solicitud = await fetch(url_dias, {
+                    method: "GET",
+                    headers: {
+                        "Content-type": "application/json",
+                        "Authorization": `Bearer ${token}`
+                    }
+                });
+
+                const respuesta_dias = await solicitud.json();
+                if (!solicitud.ok) throw new Error(respuesta_dias.Mensaje);
+
+                login({ moods: response.Resultados, dias: respuesta_dias.Resultados });
+
+            } catch (error) {
+                console.error("Error autenticando sesión:", error.message);
+                localStorage.removeItem("Token");
+                navigate("/");
+            }
+        }
+        
+        if (!token) {
+            navigate("/");
+            return;
+        } else if (token && !usuario) {
+            obtener_datos();
+        }
+
+    }, [usuario, navigate, login]);
+
     if (usuario === null) {
-        return null; // O simplemente return null;
+        return null;
     }
 
     return <div className="flex justify-center items-center px-5">
