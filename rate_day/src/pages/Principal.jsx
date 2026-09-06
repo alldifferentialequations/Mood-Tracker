@@ -20,7 +20,7 @@ function Header(){
 
     const menu = <button>
         <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M4 16H28M4 8H28M4 24H28" stroke="#B3B3B3" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M4 16H28M4 8H28M4 24H28" stroke="#B3B3B3" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/>
         </svg>
     </button>;
 
@@ -28,7 +28,7 @@ function Header(){
         <button className="relative" onClick={() => setLogout(!logoutabrir)}>
             <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <rect width="40" height="40" rx="20" fill="white"/>
-                <path d="M33.3333 35V31.6667C33.3333 29.8986 32.6309 28.2029 31.3807 26.9526C30.1304 25.7024 28.4347 25 26.6666 25H13.3333C11.5652 25 9.86949 25.7024 8.61925 26.9526C7.369 28.2029 6.66663 29.8986 6.66663 31.6667V35M26.6666 11.6667C26.6666 15.3486 23.6819 18.3333 20 18.3333C16.3181 18.3333 13.3333 15.3486 13.3333 11.6667C13.3333 7.98477 16.3181 5 20 5C23.6819 5 26.6666 7.98477 26.6666 11.6667Z" stroke="#1E1E1E" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M33.3333 35V31.6667C33.3333 29.8986 32.6309 28.2029 31.3807 26.9526C30.1304 25.7024 28.4347 25 26.6666 25H13.3333C11.5652 25 9.86949 25.7024 8.61925 26.9526C7.369 28.2029 6.66663 29.8986 6.66663 31.6667V35M26.6666 11.6667C26.6666 15.3486 23.6819 18.3333 20 18.3333C16.3181 18.3333 13.3333 15.3486 13.3333 11.6667C13.3333 7.98477 16.3181 5 20 5C23.6819 5 26.6666 7.98477 26.6666 11.6667Z" stroke="#1E1E1E" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
             {logoutabrir ? logoutdiv : ""}
         </button>;
@@ -258,12 +258,12 @@ function Calendario(){
 
     const left_arrow = <button onClick={mesAnterior}>      
         <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M30 36L18 24L30 12" stroke="#1E1E1E" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M30 36L18 24L30 12" stroke="#1E1E1E" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"/>
         </svg>
     </button>;
     const right_arrow = <button onClick={mesSiguiente}>   
         <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M18 36L30 24L18 12" stroke="#1E1E1E" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M18 36L30 24L18 12" stroke="#1E1E1E" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"/>
         </svg>
     </button>;
 
@@ -447,17 +447,17 @@ function Mood(){
 
     const add_button = <button onClick={() => {setCreate(false); setAnadir(!anadir); setDelete(false)}} className={`${anadir ? "border-2 border-black" : "border border-dashed"} rounded-[4px]`}>
         <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M15 6.25V23.75M6.25 15H23.75" stroke="#1E1E1E" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M15 6.25V23.75M6.25 15H23.75" stroke="#1E1E1E" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round"/>
         </svg>
     </button>
     const create_button = <button onClick={() => {setCreate(!create); setAnadir(false); setDelete(false)}} className={`${create ? "border-2 border-black" : "border border-dashed"} rounded-[4px]`}>
         <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M15 6.25V23.75M6.25 15H23.75" stroke="#1E1E1E" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M15 6.25V23.75M6.25 15H23.75" stroke="#1E1E1E" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round"/>
         </svg>
     </button>
     const delete_button = <button onClick={() => {setCreate(false); setAnadir(false); setDelete(!del)}} className={`${del ? "border-2 border-black" : "border border-dashed"} rounded-[4px]`}>
         <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M15 6.25V23.75M6.25 15H23.75" stroke="#1E1E1E" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M15 6.25V23.75M6.25 15H23.75" stroke="#1E1E1E" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round"/>
         </svg>
     </button>
 
@@ -518,51 +518,53 @@ export default function Principal() {
     const navigate = useNavigate();   
 
     useEffect(() => {
+        let isMounted = true;
         const token = localStorage.getItem("Token");
-        console.log("Refrescada de chill");
 
         async function obtener_datos() {
-            const token = localStorage.getItem("Token");
-                
-            if (!token) {
-                navigate("/");
-                return;
-            }
-
             try {
                 const decoded = jwtDecode(token);
                 const url_moods = `http://localhost:9906/principal/mood/${decoded.id}`;
                 const url_dias = `http://localhost:9906/principal/dia/${decoded.id}`;
 
-                const request = await fetch(url_moods, {
-                    method: "GET",
-                    headers: {
-                        "Content-type": "application/json",
-                        "Authorization": `Bearer ${token}`
-                    }
-                });
+                const headers = {
+                    "Content-type": "application/json",
+                    "Authorization": `Bearer ${token}`
+                };
 
-                const response = await request.json();
-                if (!request.ok) throw new Error(response.Mensaje);
+                const [resMoods, resDias] = await Promise.all([
+                    fetch(url_moods, { method: "GET", headers }),
+                    fetch(url_dias, { method: "GET", headers })
+                ]);
 
+                if (resMoods.status === 401 || resDias.status === 401) {
+                    throw new Error("UNAUTHORIZED");
+                }
 
-                const solicitud = await fetch(url_dias, {
-                    method: "GET",
-                    headers: {
-                        "Content-type": "application/json",
-                        "Authorization": `Bearer ${token}`
-                    }
-                });
+                if (resMoods.status === 403 || resDias.status === 403) {
+                    throw new Error("UNAUTHORIZED");
+                }
 
-                const respuesta_dias = await solicitud.json();
-                if (!solicitud.ok) throw new Error(respuesta_dias.Mensaje);
+                const response = await resMoods.json();
+                const respuesta_dias = await resDias.json();
 
-                login({ moods: response.Resultados, dias: respuesta_dias.Resultados });
+                if (!resMoods.ok) throw new Error(response.Mensaje || "Error en moods");
+                if (!resDias.ok) throw new Error(respuesta_dias.Mensaje || "Error en días");
+
+                if (isMounted) {
+                    login({ moods: response.Resultados, dias: respuesta_dias.Resultados });
+                }
 
             } catch (error) {
                 console.error("Error autenticando sesión:", error.message);
-                localStorage.removeItem("Token");
-                navigate("/");
+
+                if (isMounted) {
+                    // 3. Solo cerrar sesión si el token expiró (401), no por fallos temporales de red
+                    if (error.message === "UNAUTHORIZED") {
+                        localStorage.removeItem("Token");
+                        navigate("/");
+                    }
+                }
             }
         }
         
@@ -572,6 +574,10 @@ export default function Principal() {
         } else if (token && !usuario) {
             obtener_datos();
         }
+
+        return () => {
+            isMounted = false;
+        };
 
     }, [usuario, navigate, login]);
 
