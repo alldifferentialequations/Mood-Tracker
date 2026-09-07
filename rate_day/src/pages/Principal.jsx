@@ -71,7 +71,7 @@ function Dia({item}){
 
         const fecha = `${item.anio}-${item.mes}-${item.dia}`; 
         const url = "http://localhost:9906/principal/dia";
-        const urlGet = `http://localhost:9906/principal/dia/${decoded.id}`;
+        const urlGet = `http://localhost:9906/dia`;
         const datos = {fecha: fecha, id_mood: usingColor.id};
 
         try {
@@ -316,9 +316,10 @@ function Pintar_mood({moodsitos, setUsingColor, usingColor}) {
     async function modificar(id, color){ 
         const token = localStorage.getItem("Token");
         const decoded = jwtDecode(token);
+
         if (del) {
             const url = "http://localhost:9906/principal/mood";
-            const urlConId = `${url}/${decoded.id}`;
+            const urlmood = "http://localhost:9906/mood";
 
             try {
                 //Borrar el mood de la base de datos
@@ -340,7 +341,7 @@ function Pintar_mood({moodsitos, setUsingColor, usingColor}) {
                 }
 
                 //Ahora pido sus moods para actualizar los datos del usuario en el codigo
-                const pedir_moods = await fetch (urlConId, {
+                const pedir_moods = await fetch (urlmood, {
                     method: "GET",
                     headers: {
                         "Content-type": "application/json",
@@ -394,7 +395,7 @@ function Mood(){
 
     async function enviarMood(){
         const url = "http://localhost:9906/principal/mood";
-        const urlConId = `${url}/${usuario["id"]}`;
+        const urlmood = "http://localhost:9906/mood";
 
         try {
             console.log("Comienzo de la verificacion de errores");
@@ -419,7 +420,7 @@ function Mood(){
             }
 
             //Ahora pido sus moods para actualizar los datos del usuario en el codigo
-            const pedir_moods = await fetch (urlConId, {
+            const pedir_moods = await fetch (urlmood, {
                 method: "GET",
                 headers: {
                     "Content-type": "application/json",
@@ -463,7 +464,7 @@ function Mood(){
 
     const equis = <button onClick={() => setCreate(false)} className="absolute top-2 right-2">
         <svg width="37" height="37" viewBox="0 0 37 37" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M27.75 9.25L9.25 27.75M9.25 9.25L27.75 27.75" stroke="#F3F3F3" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M27.75 9.25L9.25 27.75M9.25 9.25L27.75 27.75" stroke="#F3F3F3" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"/>
         </svg>
     </button>
     const CreateButtonModal = createPortal(
@@ -524,8 +525,8 @@ export default function Principal() {
         async function obtener_datos() {
             try {
                 const decoded = jwtDecode(token);
-                const url_moods = `http://localhost:9906/principal/mood/${decoded.id}`;
-                const url_dias = `http://localhost:9906/principal/dia/${decoded.id}`;
+                const url_moods = `http://localhost:9906/mood`;
+                const url_dias = `http://localhost:9906/dia`;
 
                 const headers = {
                     "Content-type": "application/json",

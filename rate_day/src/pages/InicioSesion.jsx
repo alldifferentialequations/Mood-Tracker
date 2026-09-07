@@ -136,7 +136,7 @@ function Form(){
       if (mensaje.status === 200) {
         localStorage.setItem("Token", respuesta.token);
         
-        const urlmood = `${url}/mood/${respuesta["id"]}`;
+        const urlmood = `http://localhost:9906/mood`;
 
         const pedir_moods = await fetch (urlmood, {
           method: "GET",
@@ -154,7 +154,7 @@ function Form(){
         if (!pedir_moods.ok) {
             throw new Error(respuesta_moods.Mensaje);
         } else {
-          const urldia = `${url}/dia/${respuesta["id"]}`;
+          const urldia = "http://localhost:9906/dia";
 
           const pedir_dias = await fetch(urldia, {
             method: "GET",

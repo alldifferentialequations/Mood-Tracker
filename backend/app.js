@@ -78,7 +78,7 @@ app.post("/registro", [
     }
 });
 
-//Codigo para el inicio de sesion
+//Codigo para iniciar sesion
 app.post("/login", [
     body('email').notEmpty().isEmail().withMessage("Formato de correo inválido"),
     body('password').notEmpty().isLength({min: 8}).withMessage('La contraseña debe tener mínimo 8 caracteres')
@@ -120,13 +120,12 @@ app.post("/login", [
     }
 });
 
+
+
 //Codigo para cargar los moods a la pagina
-app.get("/login/mood/:id", verificarJWT,  async (req, res) => {  
+app.get("/mood", verificarJWT,  async (req, res) => {  
     try {
-        const authHeader = req.headers['authorization'];
-        const token = authHeader && authHeader.split(' ')[1];
-        const datosDecodificados = jwt.verify(token, process.env.CLAVE);
-        const id = datosDecodificados.id;
+        const id = req.usuarioId;
 
         const query = "SELECT id_mood, color, feeling FROM mood WHERE id_usuario = ?";
         const [resultado] = await pool.execute(query, [id]);
@@ -142,52 +141,10 @@ app.get("/login/mood/:id", verificarJWT,  async (req, res) => {
     }
 });
 
-//Codigo para cargar los dias a la pagina
-app.get("/login/dia/:id", verificarJWT, async (req, res) => {
-    try {
-        const authHeader = req.headers['authorization'];
-        const token = authHeader && authHeader.split(' ')[1];
-        const datosDecodificados = jwt.verify(token, process.env.CLAVE);
-        const id = datosDecodificados.id;
-
-        const consulta = "SELECT id_registro_fecha, fecha, id_mood FROM registro_fecha WHERE id_usuario = ?";
-        const [resultado] = await pool.execute(consulta, [id]);
-
-        return res.status(200).json({"Resultados": resultado});
-    } catch (error) {
-        return res.status(500).json({"Mensaje": "Error interno del servidor"});
-    }
-});
-
-//Codigo para cargar los moods al agregar el nuevo mood
-app.get("/principal/mood/:id", verificarJWT ,async (req, res) => {
-    try {
-        const authHeader = req.headers['authorization'];
-        const token = authHeader && authHeader.split(' ')[1];
-        const datosDecodificados = jwt.verify(token, process.env.CLAVE);
-        const id = datosDecodificados.id;
-
-        const query = "SELECT id_mood, color, feeling FROM mood WHERE id_usuario = ?";
-        const [resultado] = await pool.execute(query, [id]);
-
-        return res.status(200).json({"Resultados": resultado});
-    } catch (error) {
-        if (error.errno === 1062) {
-            return res.status(400).json({"Mensaje": "Datos repetidos"});
-        }
-
-        console.log(error);
-        return res.status(500).json({ "Mensaje": "Error interno del servidor" });
-    }
-});
- 
 //Codigo para agregar un nuevo mood
 app.post("/principal/mood", verificarJWT , async (req, res) => {
     try {
-        const authHeader = req.headers['authorization'];
-        const token = authHeader && authHeader.split(' ')[1];
-        const datosDecodificados = jwt.verify(token, process.env.CLAVE);
-        const id = datosDecodificados.id;
+        const id = req.usuarioId;
 
         const { color, feeling } = req.body;
         const query = "INSERT INTO mood (color, feeling, id_usuario) VALUES (?, ?, ?)";
@@ -207,10 +164,7 @@ app.post("/principal/mood", verificarJWT , async (req, res) => {
 //Codigo para borrar un mood
 app.delete("/principal/mood", verificarJWT, async (req, res) => {
     try {
-        const authHeader = req.headers['authorization'];
-        const token = authHeader && authHeader.split(' ')[1];
-        const datosDecodificados = jwt.verify(token, process.env.CLAVE);
-        const id_usuario = datosDecodificados.id;
+        const id_usuario = req.usuarioId;
 
         const { id_mood } = req.body;
         const consulta = "DELETE FROM mood WHERE id_mood = ? AND id_usuario = ?";
@@ -222,13 +176,26 @@ app.delete("/principal/mood", verificarJWT, async (req, res) => {
     }
 });
 
+
+
+//Codigo para cargar los dias a la pagina
+app.get("/dia", verificarJWT, async (req, res) => {
+    try {
+        const id = req.usuarioId;
+
+        const consulta = "SELECT id_registro_fecha, fecha, id_mood FROM registro_fecha WHERE id_usuario = ?";
+        const [resultado] = await pool.execute(consulta, [id]);
+
+        return res.status(200).json({"Resultados": resultado});
+    } catch (error) {
+        return res.status(500).json({"Mensaje": "Error interno del servidor"});
+    }
+});
+ 
 //Codigo para agregar un dia a la base de datos
 app.post("/principal/dia", verificarJWT ,async (req, res) => {
     try {
-        const authHeader = req.headers['authorization'];
-        const token = authHeader && authHeader.split(' ')[1];
-        const datosDecodificados = jwt.verify(token, process.env.CLAVE);
-        const id_usuario = datosDecodificados.id;
+        const id_usuario = req.usuarioId;
 
         const { fecha, id_mood } = req.body;
         const consulta = "INSERT INTO registro_fecha (fecha, id_mood, id_usuario) VALUES (?, ?, ?)";
@@ -247,10 +214,7 @@ app.post("/principal/dia", verificarJWT ,async (req, res) => {
 //Codigo para borrar un dia a la base de datos
 app.delete("/principal/dia", verificarJWT,  async (req, res) => {
     try {
-        const authHeader = req.headers['authorization'];
-        const token = authHeader && authHeader.split(' ')[1];
-        const datosDecodificados = jwt.verify(token, process.env.CLAVE);
-        const id_usuario = datosDecodificados.id;
+        const id_usuario = req.usuarioId;
 
         const { fecha } = req.body;
         const consulta = "DELETE FROM registro_fecha WHERE fecha = ? AND id_usuario = ?";
@@ -265,10 +229,7 @@ app.delete("/principal/dia", verificarJWT,  async (req, res) => {
 //Codigo para actualizar un dia
 app.patch("/principal/dia", verificarJWT,  async(req, res) => {
     try {
-        const authHeader = req.headers['authorization'];
-        const token = authHeader && authHeader.split(' ')[1];
-        const datosDecodificados = jwt.verify(token, process.env.CLAVE);
-        const id_usuario = datosDecodificados.id;
+        const id_usuario = req.usuarioId;
 
         const { fecha, id_mood } = req.body;
         const consulta = "UPDATE registro_fecha SET id_mood = ? WHERE id_usuario = ? AND fecha = ?";
@@ -280,22 +241,7 @@ app.patch("/principal/dia", verificarJWT,  async(req, res) => {
     }
 });
 
-//Codigo para cargar los dias a la pagina principal
-app.get("/principal/dia/:id", verificarJWT,  async (req, res) => {
-    try {
-        const authHeader = req.headers['authorization'];
-        const token = authHeader && authHeader.split(' ')[1];
-        const datosDecodificados = jwt.verify(token, process.env.CLAVE);
-        const id = datosDecodificados.id;
 
-        const consulta = "SELECT id_registro_fecha, fecha, id_mood FROM registro_fecha WHERE id_usuario = ?";
-        const [resultado] = await pool.execute(consulta, [id]);
-
-        return res.status(200).json({"Resultados": resultado});
-    } catch (error) {
-        return res.status(500).json({"Mensaje": "Error interno del servidor"});
-    }
-});
 
 app.listen(process.env.PORT, () => {
     console.log(`Server Encendido\nPuerto: ${process.env.PORT}`);
