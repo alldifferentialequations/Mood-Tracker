@@ -177,7 +177,7 @@ function Form(){
             } 
           }
         }
-        throw new Error(respuesta.Mensaje);
+        throw new Error(respuesta.mensaje);
       }
       
       console.log(respuesta.Mensaje);

@@ -70,8 +70,8 @@ function Dia({item}){
         const decoded = jwtDecode(token);
 
         const fecha = `${item.anio}-${item.mes}-${item.dia}`; 
-        const url = "http://localhost:9906/principal/dia";
-        const urlGet = `http://localhost:9906/dia`;
+        const url = "http://localhost:9906/dia";
+        const urlDelete = `http://localhost:9906/dia/${fecha}`;
         const datos = {fecha: fecha, id_mood: usingColor.id};
 
         try {
@@ -95,7 +95,7 @@ function Dia({item}){
                         throw new Error(respuesta.Mensaje);
                     } else {
                         //Ahora se actualizan los dias
-                        const request = await fetch(urlGet, {
+                        const request = await fetch(url, {
                             method: "GET",
                             headers: {
                                 "Content-type": "application/json",
@@ -132,7 +132,7 @@ function Dia({item}){
                         throw new Error(respuesta.Mensaje);
                     } else {
                         //Ahora se actualizan los dias
-                        const request = await fetch(urlGet, {
+                        const request = await fetch(url, {
                             method: "GET",
                             headers: {
                                 "Content-type": "application/json",
@@ -154,13 +154,12 @@ function Dia({item}){
                 }
             //Si del es verdadero entonces se borra el dia de la base de datos
             } else if (del) {
-                const solicitud = await fetch(url, {
+                const solicitud = await fetch(urlDelete, {
                     method: "DELETE",
                     headers: {
                         "Content-type": "application/json",
                         "Authorization": `Bearer ${localStorage.getItem("Token")}`
                     },
-                    body: JSON.stringify(datos) 
                 });
 
                 const respuesta = await solicitud.json();
@@ -170,7 +169,7 @@ function Dia({item}){
                     throw new Error(respuesta.Mensaje);
                 } else {
                     //Ahora se actualizan los dias
-                    const request = await fetch(urlGet, {
+                    const request = await fetch(url, {
                         method: "GET",
                         headers: {
                             "Content-type": "application/json",
@@ -313,25 +312,18 @@ function Calendario(){
 function Pintar_mood({moodsitos, setUsingColor, usingColor}) {
     const { setAnadir, anadir, del, usuario, login } = useContext(UserContext);
 
-    async function modificar(id, color){ 
-        const token = localStorage.getItem("Token");
-        const decoded = jwtDecode(token);
-
+    async function modificar(id, color){
         if (del) {
-            const url = "http://localhost:9906/principal/mood";
             const urlmood = "http://localhost:9906/mood";
-
+            const urlDelete = `http://localhost:9906/mood/${id}`;
             try {
                 //Borrar el mood de la base de datos
-                const solicitud = await fetch(url, {
+                const solicitud = await fetch(urlDelete, {
                     method: "DELETE",
                     headers: {
                         "Content-type": "application/json",
                         "Authorization": `Bearer ${localStorage.getItem("Token")}`
                     },
-                    body: JSON.stringify({
-                        id_mood: id,
-                    })
                 })
                 const respuesta = await solicitud.json();
 
@@ -394,14 +386,13 @@ function Mood(){
     
 
     async function enviarMood(){
-        const url = "http://localhost:9906/principal/mood";
         const urlmood = "http://localhost:9906/mood";
 
         try {
             console.log("Comienzo de la verificacion de errores");
 
             //Agrego el nuevo mood a la base de datos
-            const solicitud = await fetch(url, {
+            const solicitud = await fetch(urlmood, {
                 method: "POST",
                 headers: {
                     "Content-type": "application/json",

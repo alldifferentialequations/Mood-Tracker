@@ -187,7 +187,7 @@ function Form(){
             } 
           }
         }
-        throw new Error(respuesta.Mensaje);
+        throw new Error(respuesta.mensaje);
       }
 
       //Para los errores :v (no tocar)
