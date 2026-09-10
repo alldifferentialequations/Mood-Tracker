@@ -11,7 +11,7 @@ function Header(){
     const [logoutabrir, setLogout] = useState(false);
 
     const logoutdiv = <div className="absolute flex flex-col justify-center items-center -left-4 border border-green-600">
-        <div class="w-4 h-4 bg-blue-700 [clip-path:polygon(50%_0%,_0%_100%,_100%_100%)]"></div>
+        <div className="w-4 h-4 bg-blue-700 [clip-path:polygon(50%_0%,_0%_100%,_100%_100%)]"></div>
         <div className="px-2 bg-blue-700">
             <button className="w-max" onClick={logout}>Log out</button>
         </div>
@@ -25,13 +25,13 @@ function Header(){
     </button>;
 
     const usuarioboton = 
-        <button className="relative" onClick={() => setLogout(!logoutabrir)}>
+        <div className="relative" onClick={() => setLogout(!logoutabrir)}>
             <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <rect width="40" height="40" rx="20" fill="white"/>
                 <path d="M33.3333 35V31.6667C33.3333 29.8986 32.6309 28.2029 31.3807 26.9526C30.1304 25.7024 28.4347 25 26.6666 25H13.3333C11.5652 25 9.86949 25.7024 8.61925 26.9526C7.369 28.2029 6.66663 29.8986 6.66663 31.6667V35M26.6666 11.6667C26.6666 15.3486 23.6819 18.3333 20 18.3333C16.3181 18.3333 13.3333 15.3486 13.3333 11.6667C13.3333 7.98477 16.3181 5 20 5C23.6819 5 26.6666 7.98477 26.6666 11.6667Z" stroke="#1E1E1E" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
             {logoutabrir ? logoutdiv : ""}
-        </button>;
+        </div>;
   
 
     {/*header*/}

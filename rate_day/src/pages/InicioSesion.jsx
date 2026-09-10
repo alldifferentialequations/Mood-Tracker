@@ -7,8 +7,8 @@ function Circle(){
   <circle cx="20.5" cy="182.5" r="182.5" fill="url(#paint0_linear_101_69)"/>
   <defs>
     <linearGradient id="paint0_linear_101_69" x1="20.5" y1="0" x2="20.5" y2="365" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#8A2BE2"/>
-      <stop offset="1" stop-color="#0000FF"/>
+      <stop stopColor="#8A2BE2"/>
+      <stop offset="1" stopColor="#0000FF"/>
     </linearGradient>
   </defs>
 </svg>
@@ -19,8 +19,8 @@ function RectanguloDeformado(){
   <path d="M171.759 -179.796C271.347 -209.004 382.565 -178.001 489.301 -103.872C596.038 -29.7425 779.49 70.3924 419.429 188.36C59.3682 306.328 308.447 78.2478 101.886 112.436C-104.675 146.624 46.5706 -143.08 171.759 -179.796Z" fill="url(#paint0_linear_101_70)"/>
   <defs>
   <linearGradient id="paint0_linear_101_70" x1="-54.2121" y1="23.6288" x2="-142.834" y2="394.277" gradientUnits="userSpaceOnUse">
-  <stop stop-color="#8A2BE2"/>
-  <stop offset="1" stop-color="#0000FF"/>
+  <stop stopColor="#8A2BE2"/>
+  <stop offset="1" stopColor="#0000FF"/>
   </linearGradient>
   </defs>
 </svg>
@@ -80,7 +80,7 @@ function Campo_password({error, cambiarError}){
       <div className={`lg:h-[60px] lg:w-[300px] h-[50px] w-[280px] flex justify-start items-center gap-x-4 ${error ? "border-2 border-red-500" : "border-0"} rounded-[20px] ps-5 shadow-[0px_0px_10px_3px] shadow-shadow-campos/25`}>
         <label className="h-[30px] w-[30px]" htmlFor="password">
           <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M8.75 13.75V8.75C8.75 7.0924 9.40848 5.50268 10.5806 4.33058C11.7527 3.15848 13.3424 2.5 15 2.5C16.6576 2.5 18.2473 3.15848 19.4194 4.33058C20.5915 5.50268 21.25 7.0924 21.25 8.75V13.75M6.25 13.75H23.75C25.1307 13.75 26.25 14.8693 26.25 16.25V25C26.25 26.3807 25.1307 27.5 23.75 27.5H6.25C4.86929 27.5 3.75 26.3807 3.75 25V16.25C3.75 14.8693 4.86929 13.75 6.25 13.75Z" stroke="#1E1E1E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M8.75 13.75V8.75C8.75 7.0924 9.40848 5.50268 10.5806 4.33058C11.7527 3.15848 13.3424 2.5 15 2.5C16.6576 2.5 18.2473 3.15848 19.4194 4.33058C20.5915 5.50268 21.25 7.0924 21.25 8.75V13.75M6.25 13.75H23.75C25.1307 13.75 26.25 14.8693 26.25 16.25V25C26.25 26.3807 25.1307 27.5 23.75 27.5H6.25C4.86929 27.5 3.75 26.3807 3.75 25V16.25C3.75 14.8693 4.86929 13.75 6.25 13.75Z" stroke="#1E1E1E" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
           </svg>
         </label>
         <input onChange={cambiar_texto} className="placeholder-black placeholder:text-xl placeholder:font-medium placeholder:font-sans" type="password" id="password" name="password" required placeholder="Password"></input>
