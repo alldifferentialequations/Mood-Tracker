@@ -40,12 +40,16 @@ app.use(express.json());
 //Crear las conexiones
 const pool = mysql.createPool({
     host: process.env.DB_HOST,
+    port: Number(process.env.DB_PORT),
     user: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
     database: process.env.DB_NAME,
     waitForConnections: true,
     connectionLimit: 10,
-    queueLimit: 0
+    queueLimit: 0,
+    ssl: {
+        rejectUnauthorized: false // Permite conectar de forma segura sin cargar el archivo físico .pem
+    }
 });
 
 //Codigo para el registro
