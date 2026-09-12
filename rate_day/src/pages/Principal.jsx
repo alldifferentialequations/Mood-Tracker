@@ -3,8 +3,6 @@ import { createPortal } from "react-dom";
 import { HexColorPicker } from "react-colorful";
 import { UserContext } from "../UserContext";
 import { useNavigate } from "react-router-dom";
-import { jwtDecode } from "jwt-decode";
-
 
 function Header(){
     const { logout } = useContext(UserContext);
@@ -66,9 +64,6 @@ function Dia({item}){
 
     //Funcion para modificar un dia :v
     async function enviar_dia(){
-        const token = localStorage.getItem("Token");
-        const decoded = jwtDecode(token);
-
         const fecha = `${item.anio}-${item.mes}-${item.dia}`; 
         const url = "http://localhost:9906/dia";
         const urlDelete = `http://localhost:9906/dia/${fecha}`;
@@ -515,7 +510,6 @@ export default function Principal() {
 
         async function obtener_datos() {
             try {
-                const decoded = jwtDecode(token);
                 const url_moods = `http://localhost:9906/mood`;
                 const url_dias = `http://localhost:9906/dia`;
 
