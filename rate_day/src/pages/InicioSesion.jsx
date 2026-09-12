@@ -115,7 +115,7 @@ function Form(){
 
   async function obtener_datos(evento){
     evento.preventDefault();
-    const url = "http://localhost:9906/login";
+    const url = "https://mood-tracker-wf0j.onrender.com/login";
 
     //Se obtiene un array de pares de claves y valores de los campos del formulario
     const datos = evento.target;
@@ -136,7 +136,7 @@ function Form(){
       if (mensaje.status === 200) {
         localStorage.setItem("Token", respuesta.token);
         
-        const urlmood = `http://localhost:9906/mood`;
+        const urlmood = `https://mood-tracker-wf0j.onrender.com/mood`;
 
         const pedir_moods = await fetch (urlmood, {
           method: "GET",
@@ -154,7 +154,7 @@ function Form(){
         if (!pedir_moods.ok) {
             throw new Error(respuesta_moods.Mensaje);
         } else {
-          const urldia = "http://localhost:9906/dia";
+          const urldia = "https://mood-tracker-wf0j.onrender.com/dia";
 
           const pedir_dias = await fetch(urldia, {
             method: "GET",

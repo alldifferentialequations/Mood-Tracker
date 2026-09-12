@@ -147,7 +147,7 @@ function Form(){
       return;
     }
 
-    const url = "http://localhost:9906/registro";
+    const url = "https://mood-tracker-wf0j.onrender.com/registro";
 
     //Se obtiene un array de pares de claves y valores de los campos del formulario
     const datosFormulario = new FormData(evento.target);

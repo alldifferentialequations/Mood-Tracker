@@ -65,8 +65,8 @@ function Dia({item}){
     //Funcion para modificar un dia :v
     async function enviar_dia(){
         const fecha = `${item.anio}-${item.mes}-${item.dia}`; 
-        const url = "http://localhost:9906/dia";
-        const urlDelete = `http://localhost:9906/dia/${fecha}`;
+        const url = "https://mood-tracker-wf0j.onrender.com/dia";
+        const urlDelete = `https://mood-tracker-wf0j.onrender.com/dia/${fecha}`;
         const datos = {fecha: fecha, id_mood: usingColor.id};
 
         try {
@@ -309,8 +309,8 @@ function Pintar_mood({moodsitos, setUsingColor, usingColor}) {
 
     async function modificar(id, color){
         if (del) {
-            const urlmood = "http://localhost:9906/mood";
-            const urlDelete = `http://localhost:9906/mood/${id}`;
+            const urlmood = "https://mood-tracker-wf0j.onrender.com/mood";
+            const urlDelete = `https://mood-tracker-wf0j.onrender.com/mood/${id}`;
             try {
                 //Borrar el mood de la base de datos
                 const solicitud = await fetch(urlDelete, {
@@ -381,7 +381,7 @@ function Mood(){
     
 
     async function enviarMood(){
-        const urlmood = "http://localhost:9906/mood";
+        const urlmood = "https://mood-tracker-wf0j.onrender.com/mood";
 
         try {
             console.log("Comienzo de la verificacion de errores");
@@ -510,8 +510,8 @@ export default function Principal() {
 
         async function obtener_datos() {
             try {
-                const url_moods = `http://localhost:9906/mood`;
-                const url_dias = `http://localhost:9906/dia`;
+                const url_moods = `https://mood-tracker-wf0j.onrender.com/mood`;
+                const url_dias = `https://mood-tracker-wf0j.onrender.com/dia`;
 
                 const headers = {
                     "Content-type": "application/json",
