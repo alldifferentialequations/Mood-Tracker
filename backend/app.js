@@ -33,7 +33,7 @@ function verificarJWT(req, res, next) {
 const app = express();
 
 app.use(cors({
-  origin: "https://mood-tracker-wheat-seven.vercel.app/"
+  origin: "https://mood-tracker-wheat-seven.vercel.app"
 }));
 app.use(express.json());
 
