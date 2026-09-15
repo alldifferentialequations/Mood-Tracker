@@ -78,6 +78,7 @@ app.post("/registro", [
             "mensaje": "Usuario creado con exito",
         })
     } catch (error) {
+        console.log(error);
         if (error.errno === 1062) {
             return res.status(400).json({
                 "mensaje": "Error 1062"
@@ -157,11 +158,10 @@ app.post("/mood", verificarJWT , async (req, res) => {
 
         return res.status(201).json({"Mensaje": "Se ha creado un nuevo mood"});
     } catch (error) {
+        console.log(error);
         if (error.errno === 1062) {
             return res.status(400).json({"Mensaje": "Datos repetidos"});
         }
-
-        console.log(error);
         return res.status(500).json({ "Mensaje": "Error interno del servidor" });
     }
 });
@@ -177,6 +177,7 @@ app.delete("/mood/:id_mood", verificarJWT, async (req, res) => {
         
         return res.status(200).json({"Mensaje": "Se ha eliminado un mood pe"});
     } catch (error) {
+        console.log(error)
         return res.status(500).json({"Mensaje": "Error interno del servidor"});
     }
 });
@@ -191,6 +192,7 @@ app.get("/dia", verificarJWT, async (req, res) => {
 
         return res.status(200).json({"Resultados": resultado});
     } catch (error) {
+        console.log(error)
         return res.status(500).json({"Mensaje": "Error interno del servidor"});
     }
 });
@@ -206,6 +208,7 @@ app.post("/dia", verificarJWT, async (req, res) => {
         
         return res.status(200).json({"Mensaje": "Un nuevo dia ha sido agregado uwu"});
     } catch (error) {
+        console.log(error)
         return res.status(500).json({"Mensaje": "Error interno del servidor"});
     }
 });
@@ -221,6 +224,7 @@ app.delete("/dia/:fecha", verificarJWT, async (req, res) => {
         
         return res.status(200).json({"Mensaje": "Dia eliminado"});
     } catch (error) {
+        console.log(error)
         return res.status(500).json({"Mensaje": "Error interno del servidor"});
     }
 });
@@ -236,6 +240,7 @@ app.patch("/dia", verificarJWT, async(req, res) => {
         
         return res.status(200).json({"Mensaje": "Dia Actualizado"});
     } catch (error) {
+        console.log(error)
         return res.status(500).json({"Mensaje": "Error interno del servidor"});
     }
 });
